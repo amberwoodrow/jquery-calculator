@@ -1,28 +1,30 @@
+var toBeCalculated = [];
+
 function equals () {
-  var arrToCalc = clickedIdOrClass();
-  console.log(eval(arrToCalc));
-  return eval(arrToCalc);
+  console.log(toBeCalculated);
+  var calcStr = toBeCalculated.join(" ");
+  console.log((calcStr));
+  console.log(eval(calcStr));
+  return eval(calcStr);
 }
 
-function clickedIdOrClass () {
-  var toBeCalculated = [];
-  $("span").click(function(event) {
-    if (event.target.id === "zero") {
-      toBeCalculated.push('0');
-    }
-    else if (event.target.id === "cancel") {
-      toBeCalculated = [];
-    }
-    else if(event.target.id === "calc") {
-      $('#screen').html(equals());
-    }
-    else {
-      toBeCalculated.push(event.target.id);
-    }
-    $('#screen').html(toBeCalculated);
-    console.log(toBeCalculated.join(''));
-    return toBeCalculated.join('');
-  });
-}
+$('#zero').click(function() {
+  toBeCalculated.push(0);
+});
 
-clickedIdOrClass();
+$('#cancel').click(function() {
+  toBeCalculated = "";
+});
+
+$('#calc').click(function() {
+  toBeCalculated = [equals().toString()];
+  $('#screen').html(toBeCalculated);
+});
+
+$('span:not([id=calc], [id=cancel], [id=zero])').click(function() {
+  toBeCalculated.push(event.target.id);
+});
+
+$('span, span:not([id=calc]').click(function() {
+  $('#screen').html(toBeCalculated);
+});
